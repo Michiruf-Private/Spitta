@@ -21,6 +21,7 @@ class Booking extends Model
 
     protected $fillable = [
         'workshop_id',
+        'salutation',
         'first_name',
         'last_name',
         'email',
