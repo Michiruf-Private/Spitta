@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Salutation;
 use Database\Factories\BookingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ class Booking extends Model
 
     protected $casts = [
         'workshop_id' => 'integer',
+        'salutation' => Salutation::class,
         'person_count' => 'integer',
     ];
 

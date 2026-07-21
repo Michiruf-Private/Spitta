@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('workshop_id')->constrained();
+            $table->string('salutation', 20);
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('email', 100);

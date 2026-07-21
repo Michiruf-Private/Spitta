@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Salutation;
 use App\Models\Booking;
 use App\Models\Shop;
 use App\Models\Workshop;
@@ -21,6 +22,7 @@ class BookingFactory extends Factory
     {
         return [
             'workshop_id' => Workshop::factory(),
+            'salutation' => $this->faker->randomElement(Salutation::cases()),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
