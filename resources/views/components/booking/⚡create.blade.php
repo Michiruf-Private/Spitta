@@ -63,12 +63,6 @@ new class extends Component
         <p class="mt-1 text-sm text-gray-500">Melden Sie sich und Ihr Praxisteam für ein Fachseminar an.</p>
     </div>
 
-    @if (session('status'))
-        <p class="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
-            {{ session('status') }}
-        </p>
-    @endif
-
     <form id="booking-form" wire:submit="save" class="flex flex-col gap-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
         <div class="flex flex-col gap-1.5">
             <label for="workshop_id" class="text-sm font-medium">Seminar</label>
@@ -199,6 +193,12 @@ new class extends Component
             @endif
         </p>
     </div>
+
+    @if (session('status'))
+        <p class="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
+            {{ session('status') }}
+        </p>
+    @endif
 
     <button type="submit" form="booking-form" wire:loading.attr="disabled" wire:target="save"
         class="inline-flex items-center justify-center rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600/40 disabled:opacity-50">
