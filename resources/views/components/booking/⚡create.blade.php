@@ -45,9 +45,14 @@ new class extends Component
 
     public function save(): void
     {
-        $this->form->store();
+        $booking = $this->form->store();
 
-        session()->flash('status', 'Your booking has been created.');
+        session()->flash('status', sprintf(
+            'Vielen Dank, %s %s — Ihre Anmeldung für %s wurde erhalten.',
+            $booking->salutation->label(),
+            $booking->last_name,
+            $booking->workshop->name,
+        ));
     }
 };
 ?>
