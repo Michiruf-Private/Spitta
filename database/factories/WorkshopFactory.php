@@ -18,7 +18,16 @@ class WorkshopFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->unique()->randomElement([
+                'Abrechnung nach GOZ kompakt',
+                'Hygienemanagement in der Praxis',
+                'Notfallmanagement für das Praxisteam',
+                'DSGVO in der Arzt- und Zahnarztpraxis',
+                'Prophylaxe-Update 2026',
+                'Qualitätsmanagement nach QM-Richtlinie',
+                'Kommunikation mit Angstpatienten',
+                'Röntgen-Aktualisierung Fachkunde',
+            ]),
             'price' => (string) $this->faker->randomFloat(2, 10, 100),
         ];
     }
