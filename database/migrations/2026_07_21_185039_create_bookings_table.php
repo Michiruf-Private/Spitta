@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('workshop_id')->constrained();
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
+            $table->string('email', 100);
+            $table->unsignedInteger('person_count');
+            $table->text('notes')->nullable();
             $table->timestamps();
+
+            $table->index('workshop_id');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('bookings');
-    }
+    // intentionally no down migration
 };
