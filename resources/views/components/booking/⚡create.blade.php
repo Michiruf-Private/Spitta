@@ -136,25 +136,69 @@ new class extends Component
         </div>
     </form>
 
-    @if ($form->isComplete() && $this->selectedWorkshop)
-        <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-6">
-            <h2 class="text-sm font-semibold uppercase tracking-wide text-blue-800">Vorschau Ihrer Anmeldung</h2>
-            <p class="mt-2 text-sm leading-relaxed">
-                {{ Salutation::tryFrom($form->salutation)?->label().' '.$form->first_name.' '.$form->last_name }}
-                – {{ $form->email }} bucht:
-            </p>
-            <p class="mt-2 text-sm leading-relaxed">
-                Seminar: {{ $this->selectedWorkshop->name }}
-                ({{ $form->person_count }}&times; {{ $this->formatPrice($this->selectedWorkshop->price) }})
-            </p>
-            <p class="mt-2 border-t border-blue-200 pt-2 text-sm font-semibold">
-                Gesamtpreis: {{ $this->formatPrice($this->totalPrice) }}
-            </p>
+    @php
+        $previewName = trim(implode(' ', array_filter([
+            Salutation::tryFrom($form->salutation)?->label(),
+            $form->first_name,
+            $form->last_name,
+        ], fn (?string $part): bool => $part !== null && trim($part) !== '')));
+    @endphp
+
+    <div class="rounded-xl border border-blue-200 bg-blue-50/60 p-6">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-blue-800">Vorschau Ihrer Anmeldung</h2>
+        <dl class="mt-4 divide-y divide-blue-200/60 text-sm">
+            <div class="flex items-baseline justify-between gap-6 py-3">
+                <dt class="shrink-0 text-gray-500">Teilnehmer</dt>
+                <dd class="text-right font-medium">
+                    @if ($previewName !== '')
+                        {{ $previewName }}
+                    @else
+                        <span class="font-normal text-gray-400">–</span>
+                    @endif
+                </dd>
+            </div>
+
+            <div class="flex items-baseline justify-between gap-6 py-3">
+                <dt class="shrink-0 text-gray-500">E-Mail</dt>
+                <dd class="break-all text-right font-medium">
+                    @if (trim($form->email) !== '')
+                        {{ $form->email }}
+                    @else
+                        <span class="font-normal text-gray-400">–</span>
+                    @endif
+                </dd>
+            </div>
+
+            <div class="flex items-baseline justify-between gap-6 py-3">
+                <dt class="shrink-0 text-gray-500">Seminar</dt>
+                <dd class="text-right">
+                    @if ($this->selectedWorkshop)
+                        <span class="font-medium">{{ $this->selectedWorkshop->name }}</span>
+                        <span class="mt-0.5 block text-xs text-gray-500">
+                            {{ $form->person_count }} &times; {{ $this->formatPrice($this->selectedWorkshop->price) }}
+                        </span>
+                    @else
+                        <span class="text-gray-400">–</span>
+                    @endif
+                </dd>
+            </div>
+
             @if ($form->notes !== '')
-                <p class="mt-2 text-sm italic text-gray-600">Anmerkung: „{{ $form->notes }}“</p>
+                <div class="flex items-baseline justify-between gap-6 py-3">
+                    <dt class="shrink-0 text-gray-500">Anmerkung</dt>
+                    <dd class="text-right italic text-gray-600">„{{ $form->notes }}“</dd>
+                </div>
             @endif
-        </div>
-    @endif
+        </dl>
+        <p class="mt-1 flex items-baseline justify-between gap-6 border-t border-blue-300/60 pt-4">
+            <span class="text-sm font-medium">Gesamtpreis</span>
+            @if ($this->totalPrice !== null)
+                <span class="text-lg font-semibold tracking-tight">{{ $this->formatPrice($this->totalPrice) }}</span>
+            @else
+                <span class="text-gray-400">–</span>
+            @endif
+        </p>
+    </div>
 
     <button type="submit" form="booking-form" wire:loading.attr="disabled" wire:target="save"
         class="inline-flex items-center justify-center rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600/40 disabled:opacity-50">
