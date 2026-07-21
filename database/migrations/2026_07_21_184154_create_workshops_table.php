@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('workshops', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 255);
+            $table->string('price', 20); // intentional, float is bad for prices
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('workshops');
-    }
+    // intentionally no down migration
 };

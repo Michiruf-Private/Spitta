@@ -18,7 +18,8 @@ class WorkshopFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'price' => (string) $this->faker->randomFloat(2, 10, 100),
         ];
     }
 }
